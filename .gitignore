@@ -41,7 +41,7 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-android/app/src/google-services.json
+android/app/google-services.json
 
 # fastlane
 #
