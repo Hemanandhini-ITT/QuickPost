@@ -1,38 +1,42 @@
-import React from 'react';
-import {View, TextInput, TouchableOpacity, Text, Pressable} from 'react-native';
+import React, { useRef } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Pressable } from 'react-native';
 import styles from './login.styles';
-import {useLogin} from '../../hooks/useLogin';
-import {useNavigation} from '@react-navigation/native';
-import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../app.types';
+import { useLogin } from '../../hooks/useLogin';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../../navigation/navigation.types';
 
 const LoginScreen: React.FC = () => {
-  const {email, setEmail, password, setPassword, handleLogin} = useLogin();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const emailRef = useRef('');
+  const passwordRef = useRef('');
+  const { handleLogin, error } = useLogin();
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello there!</Text>
       <Text style={styles.subtitle}>Welcome Back</Text>
 
+      {error && <Text style={styles.errorText}>{error}</Text>}
+
       <TextInput
         placeholder="Email Address"
         style={styles.input}
-        value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => (emailRef.current = text)}
         autoCapitalize="none"
         keyboardType="email-address"
       />
       <TextInput
         placeholder="Password"
         style={styles.input}
-        value={password}
-        onChangeText={setPassword}
+        onChangeText={(text) => (passwordRef.current = text)}
         secureTextEntry
       />
 
-      <Pressable style={styles.button} onPress={handleLogin}>
+      <Pressable
+        style={styles.button}
+        onPress={() => handleLogin(emailRef.current, passwordRef.current)}
+      >
         <Text style={styles.buttonText}>Sign In</Text>
       </Pressable>
 

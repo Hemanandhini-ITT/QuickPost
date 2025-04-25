@@ -1,55 +1,64 @@
 import {StyleSheet} from 'react-native';
+import colors from '../../theme/colors';
+import fontSizes from '../../theme/font/fontSizes';
+import fontWeights from '../../theme/font/fontWeights';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 24,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
+    flexDirection: 'column',
+    gap: 16,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '600',
-    marginBottom: 4,
-    color: '#000',
+    fontSize: fontSizes.heading,
+    fontWeight: fontWeights.semiBold,
+    paddingBottom: 4,
+    color: colors.black,
   },
   subtitle: {
-    fontSize: 22,
-    fontWeight: '400',
-    marginBottom: 24,
-    color: '#000',
+    fontSize: fontSizes.title,
+    fontWeight: fontWeights.regular,
+    paddingBottom: 24,
+    color: colors.black,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.grayLight,
     borderRadius: 8,
     padding: 14,
-    marginBottom: 16,
-    fontSize: 16,
+    fontSize: fontSizes.md,
   },
   button: {
-    backgroundColor: '#d35400',
+    backgroundColor: colors.orangeDark,
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 8,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+    color: colors.white,
+    fontSize: fontSizes.md,
+    fontWeight: fontWeights.semiBold,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 24,
+    paddingTop: 24,
   },
   footerText: {
-    color: '#444',
+    color: colors.grayMedium,
   },
   loginLink: {
-    color: '#d35400',
-    fontWeight: '600',
+    color: colors.orangeDark,
+    fontWeight: fontWeights.semiBold,
+  },
+  errorText: {
+    color: colors.red,
+    paddingBottom: 10,
+    textAlign: 'center',
+    fontSize: fontSizes.sm,
   },
 });
 

@@ -1,30 +1,20 @@
-import {useState} from 'react';
-import {Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {signIn} from '../services/firebaseAuth';
-import {RootStackParamList} from '../../app.types';
+import { useState } from 'react';
+import { authenticationService } from '../services/auth';
 
 export const useLogin = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async () => {
+  const handleLogin = async (email: string, password: string) => {
     try {
-      await signIn(email, password);
-      navigation.navigate('Home');
+      setError(null);
+      await authenticationService.signIn(email.trim(), password);
     } catch (error) {
-      Alert.alert('Login Error', (error as Error).message);
+      setError((error as Error).message);
     }
   };
 
   return {
-    email,
-    setEmail,
-    password,
-    setPassword,
     handleLogin,
+    error,
   };
 };

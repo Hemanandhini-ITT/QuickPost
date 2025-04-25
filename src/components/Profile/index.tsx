@@ -1,12 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { useLogout } from '../../hooks/useLogout';
 
-const VideoGallery = () => {
+const ProfilePage = () => {
+  const { handleLogout } = useLogout();
+
   return (
     <View>
-      <Text>Coming Soon</Text>
+      <Text>Your Profile</Text>
+      <Button title="Logout" onPress={handleLogout} color="#d11a2a" />
     </View>
   );
 };
 
-export default VideoGallery;
+export default ProfilePage;
