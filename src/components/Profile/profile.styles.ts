@@ -91,14 +91,14 @@ export const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   logoutbuttonContainer: {
-    backgroundColor: '#D35400',
+    backgroundColor: colors.orangeDark,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
   },
   deleteButtonContainer: {
-    backgroundColor: '#D35400',
+    backgroundColor: colors.orangeDark,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
