@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { authenticationService } from '../services/auth';
+import {useState} from 'react';
+import {authenticationService} from '../services/auth';
 
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator, View } from 'react-native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import React, {useEffect, useState} from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ActivityIndicator, View} from 'react-native';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import AuthNavigator from './AuthNavigator';
 import HomeNavigator from './HomeNavigator';
-import { RootStackParamList } from './navigation.types';
+import {RootStackParamList} from './navigation.types';
 import styles from './navigation.styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,7 +30,7 @@ const RootNavigator = () => {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       {user ? (
         <Stack.Screen name="HomeStack" component={HomeNavigator} />
       ) : (

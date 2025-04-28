@@ -1,5 +1,5 @@
 import {Control, FieldErrors, FieldValues, Path} from 'react-hook-form';
-import {KeyboardTypeOptions} from 'react-native';
+import {KeyboardTypeOptions, StyleProp, TextStyle} from 'react-native';
 
 export interface TextInputFieldProps<T extends FieldValues> {
   name: Path<T>;
@@ -10,5 +10,5 @@ export interface TextInputFieldProps<T extends FieldValues> {
   required?: boolean;
   numberOfLines: number;
   maxLength?: number;
-  style?: object;
+  style?: StyleProp<TextStyle>;
 }

@@ -1,22 +1,23 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import usePostValidation from './usePostValidation';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HomeStackParamList } from '../navigation/navigation.types';
-import { PostData } from '../components/CreatePost/createPost.types';
-import { showToast } from '../utils/toastConst';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../navigation/navigation.types';
+import {PostData} from '../components/CreatePost/createPost.types';
+import {showToast} from '../utils/toastConst';
 
 export default function usePostForm() {
-  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = useForm<PostData>({
     resolver: usePostValidation(),
   });
@@ -39,12 +40,16 @@ export default function usePostForm() {
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
 
-      showToast('success', 'Post created successfully', 'Your post has been saved!');
+      showToast(
+        'success',
+        'Post created successfully',
+        'Your post has been saved!',
+      );
       reset();
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'HomeTabs' }],
+        routes: [{name: 'HomeTabs'}],
       });
     } catch (error) {
       showToast('error', 'Error', 'Something went wrong!');
@@ -52,5 +57,5 @@ export default function usePostForm() {
     }
   };
 
-  return { control, handleSubmit, errors, onSubmit };
+  return {control, handleSubmit, errors, onSubmit};
 }

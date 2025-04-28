@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import {View, Button} from 'react-native';
 import TextInputField from '../TextInputField';
-import { styles } from './createPost.styles';
+import {styles} from './createPost.styles';
 import usePostForm from '../../hooks/usePostForm';
 
 export default function PostForm() {
-  const { control, handleSubmit, errors, onSubmit } = usePostForm();
+  const {control, handleSubmit, errors, onSubmit} = usePostForm();
 
   return (
     <View style={styles.container}>
@@ -29,9 +29,11 @@ export default function PostForm() {
       />
 
       <View style={styles.buttonContainer}>
-        <Button title="Create Post" onPress={handleSubmit(onSubmit)}
-         color={styles.button.backgroundColor}
-          />
+        <Button
+          title="Create Post"
+          onPress={handleSubmit(onSubmit)}
+          color={styles.button.backgroundColor}
+        />
       </View>
     </View>
   );

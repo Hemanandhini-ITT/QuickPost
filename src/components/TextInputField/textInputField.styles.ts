@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import fontSizes from '../../theme/font/fontSizes';
 import fontWeights from '../../theme/font/fontWeights';
+import colors from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,19 +12,19 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeights.bold,
   },
   input: {
-    borderColor: '#ccc',
+    borderColor: colors.grayLight,
     borderWidth: 1,
     padding: 10,
     borderRadius: 6,
   },
   inputDefault: {
-    borderColor: '#ccc',
+    borderColor: colors.grayLight,
   },
   inputError: {
-    borderColor: 'red',
+    borderColor: colors.red,
   },
   errorText: {
-    color: 'red',
+    color: colors.red,
     fontSize: fontSizes.xs,
   },
   textArea: {

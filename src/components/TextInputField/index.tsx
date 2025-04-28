@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { Controller, FieldValues } from 'react-hook-form';
-import { styles } from './textInputField.styles';
-import { TextInputFieldProps } from './textInputField.types';
+import {View, Text, TextInput} from 'react-native';
+import {Controller, FieldValues} from 'react-hook-form';
+import {styles} from './textInputField.styles';
+import {TextInputFieldProps} from './textInputField.types';
 
 const TextInputField = <T extends FieldValues>({
   name,
@@ -18,7 +18,7 @@ const TextInputField = <T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({field}) => (
         <View style={styles.container}>
           <Text style={styles.label}>
             {label}

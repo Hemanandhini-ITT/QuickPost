@@ -1,24 +1,19 @@
-import React, { useRef, useState } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
-import { useSignup } from '../../hooks/useSignup';
+import React, {useRef, useState} from 'react';
+import {View, TextInput, Text, Pressable, TouchableOpacity} from 'react-native';
+import {useSignup} from '../../hooks/useSignup';
 import styles from './signup.styles';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/navigation.types';
+import {useNavigation} from '@react-navigation/native';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../../navigation/navigation.types';
 
 const SignupScreen: React.FC = () => {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const confirmPasswordRef = useRef('');
   const [localError, setLocalError] = useState<string | null>(null);
-  const { handleSignup, error } = useSignup();
-  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  const {handleSignup, error} = useSignup();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
   const onSignupPress = () => {
     const email = emailRef.current.trim();
@@ -30,7 +25,7 @@ const SignupScreen: React.FC = () => {
       return;
     }
 
-    setLocalError(null); // clear mismatch error
+    setLocalError(null);
     handleSignup(email, password);
   };
 
@@ -46,20 +41,20 @@ const SignupScreen: React.FC = () => {
       <TextInput
         placeholder="Email Address"
         style={styles.input}
-        onChangeText={(text) => (emailRef.current = text)}
+        onChangeText={text => (emailRef.current = text)}
         autoCapitalize="none"
         keyboardType="email-address"
       />
       <TextInput
         placeholder="Password"
         style={styles.input}
-        onChangeText={(text) => (passwordRef.current = text)}
+        onChangeText={text => (passwordRef.current = text)}
         secureTextEntry
       />
       <TextInput
         placeholder="Confirm Password"
         style={styles.input}
-        onChangeText={(text) => (confirmPasswordRef.current = text)}
+        onChangeText={text => (confirmPasswordRef.current = text)}
         secureTextEntry
       />
 
