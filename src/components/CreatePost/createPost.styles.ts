@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../theme/colors';
 import fontSizes from '../../theme/font/fontSizes';
+import fontWeights from '../../theme/font/fontWeights';
 
 export const styles = StyleSheet.create({
   container: {
@@ -25,11 +26,16 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: 16,
-    borderRadius: 8,
-    overflow: 'hidden',
-    color: colors.orangeDark,
   },
   button: {
     backgroundColor: colors.orangeDark,
+    borderRadius: 8,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: colors.white,
+    fontWeight: fontWeights.semiBold,
+    fontSize: fontSizes.md,
   },
 });

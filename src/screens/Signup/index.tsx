@@ -15,16 +15,28 @@ const SignupScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
+  const validateEmail = (email: string): boolean => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+  };
+
   const onSignupPress = () => {
     const email = emailRef.current.trim();
     const password = passwordRef.current;
     const confirmPassword = confirmPasswordRef.current;
 
+    if (!email || !password || !confirmPassword) {
+      setLocalError('Ensure all fields are completed to continue');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setLocalError('Invalid email format. Please check your email.');
+      return;
+    }
     if (password !== confirmPassword) {
       setLocalError('Passwords do not match');
       return;
     }
-
     setLocalError(null);
     handleSignup(email, password);
   };
@@ -35,7 +47,7 @@ const SignupScreen: React.FC = () => {
       <Text style={styles.subtitle}>Create a new account</Text>
 
       {(localError || error) && (
-        <Text style={styles.errorText}>{localError || error}</Text>
+        <Text style={styles.errorText}>{localError ?? error}</Text>
       )}
 
       <TextInput

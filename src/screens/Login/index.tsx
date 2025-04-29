@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, TextInput, TouchableOpacity, Text, Pressable} from 'react-native';
 import styles from './login.styles';
 import {useLogin} from '../../hooks/useLogin';
@@ -10,15 +10,38 @@ const LoginScreen: React.FC = () => {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const {handleLogin, error} = useLogin();
+  const [localError, setLocalError] = useState<string | null>(null);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
+  const validateEmail = (email: string): boolean => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+  };
+
+  const onLoginPress = () => {
+    const email = emailRef.current.trim();
+    const password = passwordRef.current;
+    if (!email || !password) {
+      setLocalError('Ensure all fields are completed to continue');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setLocalError('Invalid email format. Please check your email.');
+      return;
+    }
+    setLocalError(null);
+    handleLogin(email, password);
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello there!</Text>
       <Text style={styles.subtitle}>Welcome Back</Text>
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {(localError || error) && (
+        <Text style={styles.errorText}>{localError ?? error}</Text>
+      )}
 
       <TextInput
         placeholder="Email Address"
@@ -34,9 +57,7 @@ const LoginScreen: React.FC = () => {
         secureTextEntry
       />
 
-      <Pressable
-        style={styles.button}
-        onPress={() => handleLogin(emailRef.current, passwordRef.current)}>
+      <Pressable style={styles.button} onPress={onLoginPress}>
         <Text style={styles.buttonText}>Sign In</Text>
       </Pressable>
 

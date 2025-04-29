@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import TextInputField from '../TextInputField';
 import {styles} from './createPost.styles';
 import usePostForm from '../../hooks/usePostForm';
@@ -29,11 +29,11 @@ export default function PostForm() {
       />
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Create Post"
+        <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
-          color={styles.button.backgroundColor}
-        />
+          style={styles.button}>
+          <Text style={styles.buttonText}>Create Post</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

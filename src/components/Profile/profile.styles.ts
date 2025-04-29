@@ -23,11 +23,22 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
   title: {
     fontSize: fontSizes.lg,
     fontWeight: fontWeights.bold,
     color: colors.primary,
     paddingBottom: 10,
+    flex: 1,
+  },
+  deleteIcon: {
+    color: colors.red,
+    fontSize: fontSizes.title,
   },
   content: {
     fontSize: fontSizes.md,
@@ -64,7 +75,7 @@ export const styles = StyleSheet.create({
   },
   cancelButton: {
     padding: 10,
-    backgroundColor: colors.grayLight,
+    backgroundColor: colors.primary,
     borderRadius: 5,
     width: '45%',
     alignItems: 'center',
@@ -96,13 +107,5 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
-  },
-  deleteButtonContainer: {
-    backgroundColor: colors.orangeDark,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
   },
 });

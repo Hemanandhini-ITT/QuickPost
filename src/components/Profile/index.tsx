@@ -14,6 +14,7 @@ import useUserPosts from '../../hooks/useUserPosts';
 import {styles} from './profile.styles';
 import {useLogout} from '../../hooks/useLogout';
 import auth from '@react-native-firebase/auth';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
 export default function Profile() {
   const {
@@ -33,20 +34,14 @@ export default function Profile() {
     return <ActivityIndicator size="large" />;
   }
 
-  if (posts.length === 0) {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text>No posts found!</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.userInfoContainer}>
         {user && (
           <>
-            <Text style={styles.userName}>Welcome, {user.email}</Text>
+            <Text style={styles.userName}>
+              Welcome, {user.email?.split('@')[0]}
+            </Text>
             <TouchableOpacity
               style={styles.logoutbuttonContainer}
               onPress={handleLogout}>
@@ -55,28 +50,34 @@ export default function Profile() {
           </>
         )}
       </View>
-
-      <FlatList
-        data={posts}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContainer}
-        renderItem={({item}) => (
-          <View style={styles.postContainer}>
-            <Text
-              style={styles.title}
-              onPress={() => navigation.navigate('PostDetails', {post: item})}>
-              {item.title}
-            </Text>
-            <Text style={styles.content}>{item.content}</Text>
-            <TouchableOpacity
-              style={styles.deleteButtonContainer}
-              onPress={() => handleDeletePress(item.id)}>
-              <Text style={styles.buttonText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-
+      {posts.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text>No posts found!</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={posts}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContainer}
+          renderItem={({item}) => (
+            <View style={styles.postContainer}>
+              <View style={styles.titleRow}>
+                <Text
+                  style={styles.title}
+                  onPress={() =>
+                    navigation.navigate('PostDetails', {post: item})
+                  }>
+                  {item.title}
+                </Text>
+                <TouchableOpacity onPress={() => handleDeletePress(item.id)}>
+                  <Icons name="delete-outline" style={styles.deleteIcon} />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.content}>{item.content}</Text>
+            </View>
+          )}
+        />
+      )}
       <Modal
         visible={modalVisible}
         animationType="slide"

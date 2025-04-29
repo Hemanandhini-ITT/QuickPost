@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
   },
   content: {
     fontSize: fontSizes.lg,
-    color: colors.grayMedium,
+    color: colors.black,
     paddingBottom: 24,
     textAlign: 'center',
     lineHeight: 26,
