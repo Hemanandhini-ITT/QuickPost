@@ -5,6 +5,7 @@ import styles from './signup.styles';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../navigation/navigation.types';
+import { validateEmail } from '../../utils/validateEmail';
 
 const SignupScreen: React.FC = () => {
   const emailRef = useRef('');
@@ -14,11 +15,6 @@ const SignupScreen: React.FC = () => {
   const {handleSignup, error} = useSignup();
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-
-  const validateEmail = (email: string): boolean => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return emailPattern.test(email);
-  };
 
   const onSignupPress = () => {
     const email = emailRef.current.trim();

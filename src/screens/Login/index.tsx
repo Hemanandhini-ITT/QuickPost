@@ -5,6 +5,7 @@ import {useLogin} from '../../hooks/useLogin';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../navigation/navigation.types';
+import { validateEmail } from '../../utils/validateEmail';
 
 const LoginScreen: React.FC = () => {
   const emailRef = useRef('');
@@ -13,11 +14,6 @@ const LoginScreen: React.FC = () => {
   const [localError, setLocalError] = useState<string | null>(null);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-
-  const validateEmail = (email: string): boolean => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return emailPattern.test(email);
-  };
 
   const onLoginPress = () => {
     const email = emailRef.current.trim();
