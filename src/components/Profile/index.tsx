@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,9 @@ import {HomeStackParamList} from '../../navigation/navigation.types';
 import useUserPosts from '../../hooks/useUserPosts';
 import {styles} from './profile.styles';
 import {useLogout} from '../../hooks/useLogout';
-import auth from '@react-native-firebase/auth';
 import Icons from 'react-native-vector-icons/MaterialIcons';
+import useAuthUser from '../../hooks/useAuthUser';
+import {PostDataWithId} from './profile.types';
 
 export default function Profile() {
   const {
@@ -25,10 +26,43 @@ export default function Profile() {
     handleConfirmDelete,
     handleCancelDelete,
   } = useUserPosts();
+
+  const {user} = useAuthUser();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
   const {handleLogout} = useLogout();
-  const user = auth().currentUser;
+
+  const renderItem = useCallback(
+    ({item}: {item: PostDataWithId}) => {
+      return (
+        <View style={styles.postContainer}>
+          <View style={styles.titleRow}>
+            <Text
+              style={styles.title}
+              onPress={() => navigation.navigate('PostDetails', {post: item})}>
+              {item.title}
+            </Text>
+            <TouchableOpacity onPress={() => handleDeletePress(item.id)}>
+              <Icons name="delete-outline" style={styles.deleteIcon} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.content}>{item.content}</Text>
+        </View>
+      );
+    },
+    [navigation, handleDeletePress],
+  );
+
+  const renderEmptyComponent = useCallback(
+    () => (
+      <View style={styles.emptyContainer}>
+        <Text>No posts found!</Text>
+      </View>
+    ),
+    [],
+  );
 
   if (loading) {
     return <ActivityIndicator size="large" />;
@@ -50,34 +84,16 @@ export default function Profile() {
           </>
         )}
       </View>
-      {posts.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Text>No posts found!</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={posts}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContainer}
-          renderItem={({item}) => (
-            <View style={styles.postContainer}>
-              <View style={styles.titleRow}>
-                <Text
-                  style={styles.title}
-                  onPress={() =>
-                    navigation.navigate('PostDetails', {post: item})
-                  }>
-                  {item.title}
-                </Text>
-                <TouchableOpacity onPress={() => handleDeletePress(item.id)}>
-                  <Icons name="delete-outline" style={styles.deleteIcon} />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.content}>{item.content}</Text>
-            </View>
-          )}
-        />
-      )}
+      <FlatList
+        data={posts}
+        keyExtractor={item => item.id}
+        contentContainerStyle={
+          posts.length === 0 ? styles.emptyContainer : styles.listContainer
+        }
+        renderItem={renderItem}
+        ListEmptyComponent={renderEmptyComponent}
+      />
+
       <Modal
         visible={modalVisible}
         animationType="slide"

@@ -72,7 +72,7 @@ const SignupScreen: React.FC = () => {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.loginLink}>Login</Text>
         </TouchableOpacity>
       </View>
