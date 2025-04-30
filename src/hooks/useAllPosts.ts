@@ -8,7 +8,7 @@ export default function useAllPosts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = firestore()
+    const getAllPosts = firestore()
       .collection('posts')
       .orderBy('createdAt', 'desc')
       .onSnapshot(
@@ -44,7 +44,7 @@ export default function useAllPosts() {
         },
       );
 
-    return () => unsubscribe();
+    return () => getAllPosts();
   }, []);
 
   return {posts, loading};

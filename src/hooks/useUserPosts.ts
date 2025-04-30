@@ -19,7 +19,7 @@ export default function useUserPosts() {
       return;
     }
 
-    const unsubscribe = firestore()
+    const getUserPosts = firestore()
       .collection('posts')
       .where('userEmail', '==', user.email)
       .orderBy('createdAt', 'desc')
@@ -56,7 +56,7 @@ export default function useUserPosts() {
         },
       );
 
-    return () => unsubscribe();
+    return () => getUserPosts();
   }, []);
 
   const deletePost = async (postId: string) => {
