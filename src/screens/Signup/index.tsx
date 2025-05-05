@@ -1,74 +1,58 @@
-import React, {useRef, useState} from 'react';
-import {View, TextInput, Text, Pressable, TouchableOpacity} from 'react-native';
-import {useSignup} from '../../hooks/useSignup';
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './signup.styles';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../navigation/navigation.types';
-import { validateEmail } from '../../utils/validateEmail';
+import TextInputField from '../../components/TextInputField';
+import { useSignup } from '../../hooks/useSignup';
 
 const SignupScreen: React.FC = () => {
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
-  const confirmPasswordRef = useRef('');
-  const [localError, setLocalError] = useState<string | null>(null);
-  const {handleSignup, error} = useSignup();
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-
-  const onSignupPress = () => {
-    const email = emailRef.current.trim();
-    const password = passwordRef.current;
-    const confirmPassword = confirmPasswordRef.current;
-
-    if (!email || !password || !confirmPassword) {
-      setLocalError('Ensure all fields are completed to continue');
-      return;
-    }
-    if (!validateEmail(email)) {
-      setLocalError('Invalid email format. Please check your email.');
-      return;
-    }
-    if (password !== confirmPassword) {
-      setLocalError('Passwords do not match');
-      return;
-    }
-    setLocalError(null);
-    handleSignup(email, password);
-  };
+  const {control, errors, handleSubmit, onSubmit, error} = useSignup();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Get Started</Text>
       <Text style={styles.subtitle}>Create a new account</Text>
 
-      {(localError || error) && (
-        <Text style={styles.errorText}>{localError ?? error}</Text>
-      )}
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <TextInput
-        placeholder="Email Address"
-        style={styles.input}
-        onChangeText={text => (emailRef.current = text)}
-        autoCapitalize="none"
+      <TextInputField
+        name="email"
+        label="Email Address"
+        control={control}
+        errors={errors}
         keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Password"
+        autoCapitalize="none"
+        placeholder="john@gmail.com"
         style={styles.input}
-        onChangeText={text => (passwordRef.current = text)}
-        secureTextEntry
       />
-      <TextInput
-        placeholder="Confirm Password"
-        style={styles.input}
-        onChangeText={text => (confirmPasswordRef.current = text)}
+      <TextInputField
+        name="password"
+        label="Password"
+        control={control}
+        errors={errors}
         secureTextEntry
+        style={styles.input}
+        placeholder="John@123"
+      />
+      <TextInputField
+        name="confirmPassword"
+        label="Confirm Password"
+        control={control}
+        errors={errors}
+        secureTextEntry
+        style={styles.input}
+        placeholder="John@123"
       />
 
-      <Pressable style={styles.button} onPress={onSignupPress}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
+      </TouchableOpacity>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already have an account? </Text>

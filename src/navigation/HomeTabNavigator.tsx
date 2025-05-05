@@ -8,10 +8,10 @@ import {HomeTabParamList} from './navigation.types';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
-const createTabIcon = (iconName: string) =>
-  ({color, size}: {color: string; size: number}) => (
-    <MaterialIcons name={iconName} color={color} size={size} />
-  );
+const createTabIcon =
+  (iconName: string) =>
+  ({color, size}: {color: string; size: number}) =>
+    <MaterialIcons name={iconName} color={color} size={size} />;
 
 const FeedIcon = createTabIcon('list');
 const CreatePostIcon = createTabIcon('post-add');
@@ -19,11 +19,7 @@ const ProfileIcon = createTabIcon('account-circle');
 
 const HomeTabs = () => (
   <Tab.Navigator>
-    <Tab.Screen
-      name="Feed"
-      component={Feed}
-      options={{tabBarIcon: FeedIcon}}
-    />
+    <Tab.Screen name="Feed" component={Feed} options={{tabBarIcon: FeedIcon}} />
     <Tab.Screen
       name="CreatePost"
       component={CreatePost}

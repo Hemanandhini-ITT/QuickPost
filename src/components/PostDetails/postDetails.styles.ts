@@ -42,4 +42,11 @@ export const styles = StyleSheet.create({
     color: colors.primary,
     paddingBottom: 12,
   },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 16,
+    zIndex: 10,
+    padding: 8,
+  },
 });

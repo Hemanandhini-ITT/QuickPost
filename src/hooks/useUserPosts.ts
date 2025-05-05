@@ -1,18 +1,19 @@
 import {useState, useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import {showToast} from '../utils/toastConst';
 import {PostDataWithId} from '../components/Profile/profile.types';
+import useAuthUser from './useAuthUser';
 
 export default function useUserPosts() {
   const [posts, setPosts] = useState<PostDataWithId[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [postToDelete, setPostToDelete] = useState<string | null>(null);
+  const {user, loading: authLoading} = useAuthUser();
 
   useEffect(() => {
-    const user = auth().currentUser;
-
+    if (authLoading) {
+      return;
+    }
     if (!user) {
       showToast('error', 'Error', 'User not authenticated');
       setLoading(false);
@@ -57,7 +58,7 @@ export default function useUserPosts() {
       );
 
     return () => getUserPosts();
-  }, []);
+  }, [authLoading, user]);
 
   const deletePost = async (postId: string) => {
     try {
@@ -70,15 +71,12 @@ export default function useUserPosts() {
     }
   };
 
-  const handleDeletePress = (postId: string) => {
-    setPostToDelete(postId);
+  const handleDeletePress = () => {
     setModalVisible(true);
   };
 
-  const handleConfirmDelete = () => {
-    if (postToDelete) {
-      deletePost(postToDelete);
-    }
+  const handleConfirmDelete = (postId: string) => {
+    deletePost(postId);
   };
 
   const handleCancelDelete = () => {

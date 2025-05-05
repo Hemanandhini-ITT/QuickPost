@@ -25,6 +25,7 @@ export default function PostForm() {
         errors={errors}
         numberOfLines={6}
         maxLength={250}
+        multiline={true}
         style={styles.inputField}
       />
 

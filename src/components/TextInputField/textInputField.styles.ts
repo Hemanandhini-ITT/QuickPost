@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSizes.xs,
   },
   textArea: {
-    height: 100,
+    height: 150,
     textAlignVertical: 'top',
   },
 });

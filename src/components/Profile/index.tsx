@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -33,6 +33,7 @@ export default function Profile() {
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const {handleLogout} = useLogout();
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
   const renderItem = useCallback(
     ({item}: {item: PostDataWithId}) => {
@@ -44,7 +45,11 @@ export default function Profile() {
               onPress={() => navigation.navigate('PostDetails', {post: item})}>
               {item.title}
             </Text>
-            <TouchableOpacity onPress={() => handleDeletePress(item.id)}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedPostId(item.id);
+                handleDeletePress();
+              }}>
               <Icons name="delete-outline" style={styles.deleteIcon} />
             </TouchableOpacity>
           </View>
@@ -111,7 +116,12 @@ export default function Profile() {
                 <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={handleConfirmDelete}
+                onPress={() => {
+                  if (selectedPostId) {
+                    handleConfirmDelete(selectedPostId);
+                    setSelectedPostId(null);
+                  }
+                }}
                 style={styles.deleteButton}>
                 <Text style={styles.buttonText}>Delete</Text>
               </TouchableOpacity>

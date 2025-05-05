@@ -1,7 +1,9 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import colors from '../../theme/colors';
 import fontSizes from '../../theme/font/fontSizes';
 import fontWeights from '../../theme/font/fontWeights';
+
+const screenWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
   container: {
@@ -58,7 +60,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.transparentBlack50,
   },
   modalContent: {
-    width: 300,
+    width: screenWidth * 0.7,
     padding: 20,
     backgroundColor: colors.white,
     borderRadius: 10,

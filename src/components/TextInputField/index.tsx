@@ -9,10 +9,9 @@ const TextInputField = <T extends FieldValues>({
   label,
   control,
   errors,
-  keyboardType = 'default',
-  numberOfLines = 1,
-  maxLength,
+  multiline = false,
   style,
+  ...textInputProps
 }: TextInputFieldProps<T>) => {
   return (
     <Controller
@@ -32,12 +31,12 @@ const TextInputField = <T extends FieldValues>({
               styles.input,
               style,
               errors[name] ? styles.inputError : styles.inputDefault,
-              numberOfLines > 1 && styles.textArea,
+              textInputProps.numberOfLines && textInputProps.numberOfLines > 1
+                ? styles.textArea
+                : null,
             ]}
-            keyboardType={keyboardType}
-            multiline={numberOfLines > 1}
-            numberOfLines={numberOfLines}
-            maxLength={maxLength}
+            multiline={multiline}
+            {...textInputProps}
           />
           {errors[name] && (
             <Text style={styles.errorText}>
