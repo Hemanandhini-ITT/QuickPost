@@ -54,20 +54,3 @@ export const addComment = async (postId: string, text: string) => {
   });
 };
 
-// export const getLikeCount = async (postId: string) => {
-//   const snapshot = await firestore()
-//     .collection('posts')
-//     .doc(postId)
-//     .collection('likes')
-//     .get();
-//   return snapshot.size;
-// };
-
-export const getCommentCount = async (postId: string) => {
-  const snapshot = await firestore()
-    .collection('posts')
-    .doc(postId)
-    .collection('comments')
-    .get();
-  return snapshot.size;
-};
