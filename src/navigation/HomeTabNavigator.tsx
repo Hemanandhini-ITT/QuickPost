@@ -14,21 +14,30 @@ const createTabIcon =
     <MaterialIcons name={iconName} color={color} size={size} />;
 
 const FeedIcon = createTabIcon('list');
-const CreatePostIcon = createTabIcon('post-add');
+const CreatePostIcon = createTabIcon('add-box');
 const ProfileIcon = createTabIcon('account-circle');
 
 const HomeTabs = () => (
   <Tab.Navigator>
-    <Tab.Screen name="Feed" component={Feed} options={{tabBarIcon: FeedIcon}} />
+    <Tab.Screen
+      name="Feed"
+      component={Feed}
+      options={{tabBarIcon: FeedIcon, headerTitleAlign: 'center'}}
+    />
     <Tab.Screen
       name="CreatePost"
       component={CreatePost}
-      options={{tabBarIcon: CreatePostIcon}}
+      options={{
+        tabBarIcon: CreatePostIcon,
+        tabBarLabel: 'Create Post',
+        title: 'Create Post',
+        headerTitleAlign: 'center',
+      }}
     />
     <Tab.Screen
       name="Profile"
       component={Profile}
-      options={{tabBarIcon: ProfileIcon}}
+      options={{tabBarIcon: ProfileIcon, headerTitleAlign: 'center'}}
     />
   </Tab.Navigator>
 );

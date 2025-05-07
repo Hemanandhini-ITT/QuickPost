@@ -1,19 +1,42 @@
 import React, {useCallback} from 'react';
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../navigation/navigation.types';
 import useAllPosts from '../../hooks/useAllPosts';
 import {styles} from './feed.styles';
-import {PostDataWithId} from '../Profile/profile.types';
+import {PostWithLikeStatus} from '../Profile/profile.types';
+import Icons from 'react-native-vector-icons/MaterialIcons';
+import usePostInteractions from '../../hooks/usePostInteraction';
 
 export default function Feeds() {
   const {posts, loading} = useAllPosts();
+
+  const {
+    modalVisible,
+    selectedPostId,
+    commentText,
+    submitting,
+    openCommentsModal,
+    closeCommentsModal,
+    handleAddComment,
+    handleLike,
+    setCommentText,
+  } = usePostInteractions();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const renderItem = useCallback(
-    (props: {item: PostDataWithId}) => {
+    (props: {item: PostWithLikeStatus}) => {
       const item = props.item;
       return (
         <View style={styles.postContainer}>
@@ -23,10 +46,27 @@ export default function Feeds() {
             {item.title}
           </Text>
           <Text style={styles.content}>{item.content}</Text>
+          <View style={styles.actionsRow}>
+            <TouchableOpacity
+              onPress={() => handleLike(item.id)}
+              style={styles.iconContainer}>
+              <Icons
+                name={item.likedByCurrentUser ? 'favorite' : 'favorite-border'}
+                size={20}
+                style={[styles.icon, item.likedByCurrentUser && {color: 'red'}]}
+              />
+              <Text style={styles.countText}>{item.likeCount ?? 0}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => openCommentsModal(item.id)}>
+              <Icons name="comment" size={20} style={styles.icon} />
+              <Text style={styles.countText}>{item.commentCount ?? 0}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     },
-    [navigation],
+    [handleLike, navigation, openCommentsModal],
   );
 
   const renderEmptyComponent = useCallback(
@@ -37,9 +77,12 @@ export default function Feeds() {
     ),
     [],
   );
-
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (
@@ -53,6 +96,49 @@ export default function Feeds() {
         renderItem={renderItem}
         ListEmptyComponent={renderEmptyComponent}
       />
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={closeCommentsModal}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Comments</Text>
+
+          <FlatList
+            data={posts.find(p => p.id === selectedPostId)?.comments ?? []}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <View style={styles.commentItem}>
+                <Text style={styles.commentUser}>{item.userEmail}</Text>
+                <Text style={styles.commentText}>{item.text}</Text>
+              </View>
+            )}
+          />
+
+          <TextInput
+            value={commentText}
+            onChangeText={setCommentText}
+            placeholder="Write a comment..."
+            style={styles.input}
+          />
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={[styles.button, styles.closeButton]}
+              onPress={closeCommentsModal}>
+              <Text style={styles.buttonText}>Close</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, styles.postButton]}
+              onPress={handleAddComment}
+              disabled={submitting}>
+              <Text style={styles.buttonText}>
+                {submitting ? 'Posting...' : 'Post'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

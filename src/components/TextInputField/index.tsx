@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {Controller, FieldValues} from 'react-hook-form';
 import {styles} from './textInputField.styles';
@@ -13,6 +13,8 @@ const TextInputField = <T extends FieldValues>({
   style,
   ...textInputProps
 }: TextInputFieldProps<T>) => {
+  const [charCount, setCharCount] = useState(0);
+  const maxLength = textInputProps.maxLength;
   return (
     <Controller
       name={name}
@@ -25,7 +27,11 @@ const TextInputField = <T extends FieldValues>({
           </Text>
           <TextInput
             value={field.value?.toString() ?? ''}
-            onChangeText={field.onChange}
+            // onChangeText={field.onChange}
+            onChangeText={text => {
+              field.onChange(text);
+              if (maxLength) {setCharCount(text.length);}
+            }}
             onBlur={field.onBlur}
             style={[
               styles.input,
@@ -38,6 +44,11 @@ const TextInputField = <T extends FieldValues>({
             multiline={multiline}
             {...textInputProps}
           />
+                    {maxLength && (
+            <Text style={styles.charCount}>
+              ({charCount}/{maxLength})
+            </Text>
+          )}
           {errors[name] && (
             <Text style={styles.errorText}>
               {errors[name]?.message?.toString()}

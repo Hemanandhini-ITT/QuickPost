@@ -19,4 +19,5 @@ export type HomeTabParamList = {
 export type HomeStackParamList = {
   HomeTabs: undefined;
   PostDetails: {post: PostDataWithId};
+  Comments: { postId: string };
 };

@@ -31,4 +31,10 @@ export const styles = StyleSheet.create({
     height: 150,
     textAlignVertical: 'top',
   },
+  charCount: {
+    fontSize: fontSizes.sm,
+    color: colors.grayMedium,
+    textAlign: 'right',
+    marginTop: 4,
+  },
 });

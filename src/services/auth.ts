@@ -1,5 +1,3 @@
-// services/AuthenticationService.ts
-
 import auth from '@react-native-firebase/auth';
 
 class AuthenticationService {
@@ -30,6 +28,14 @@ class AuthenticationService {
   async signOut() {
     try {
       await auth().signOut();
+    } catch (error: unknown) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async forgotPassword(email: string) {
+    try {
+      await auth().sendPasswordResetEmail(email);
     } catch (error: unknown) {
       throw new Error((error as Error).message);
     }

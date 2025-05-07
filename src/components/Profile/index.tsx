@@ -6,6 +6,8 @@ import {
   ActivityIndicator,
   Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -16,6 +18,7 @@ import {useLogout} from '../../hooks/useLogout';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import useAuthUser from '../../hooks/useAuthUser';
 import {PostDataWithId} from './profile.types';
+import {useForgotPassword} from '../../hooks/useForgotPassword';
 
 export default function Profile() {
   const {
@@ -34,6 +37,10 @@ export default function Profile() {
 
   const {handleLogout} = useLogout();
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+
+  const [menuVisible, setMenuVisible] = useState(false);
+  const toggleMenu = () => setMenuVisible(prev => !prev);
+  const {handleForgotPassword} = useForgotPassword();
 
   const renderItem = useCallback(
     ({item}: {item: PostDataWithId}) => {
@@ -70,65 +77,92 @@ export default function Profile() {
   );
 
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.userInfoContainer}>
-        {user && (
-          <>
-            <Text style={styles.userName}>
-              Welcome, {user.email?.split('@')[0]}
-            </Text>
-            <TouchableOpacity
-              style={styles.logoutbuttonContainer}
-              onPress={handleLogout}>
-              <Text style={styles.buttonText}>Logout</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
-      <FlatList
-        data={posts}
-        keyExtractor={item => item.id}
-        contentContainerStyle={
-          posts.length === 0 ? styles.emptyContainer : styles.listContainer
+    <TouchableWithoutFeedback
+      onPress={() => {
+        if (menuVisible) {
+          setMenuVisible(false);
         }
-        renderItem={renderItem}
-        ListEmptyComponent={renderEmptyComponent}
-      />
+        Keyboard.dismiss();
+      }}>
+      <View style={styles.container}>
+        <View style={styles.userInfoContainer}>
+          {user && (
+            <>
+              <Text style={styles.userName}>
+                Welcome, {user.email?.split('@')[0]}
+              </Text>
+              <View style={styles.menuContainer}>
+                <TouchableOpacity onPress={toggleMenu}>
+                  <Icons name="more-vert" size={26} />
+                </TouchableOpacity>
 
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={handleCancelDelete}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>
-              Are you sure you want to delete this post?
-            </Text>
-            <View style={styles.modalButtons}>
+                {menuVisible && (
+                  <View style={styles.menuDropdown}>
+                    <TouchableOpacity
+                      onPress={() => handleForgotPassword(user?.email)}>
+                      <Text style={styles.menuItem}>Reset Password</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+
               <TouchableOpacity
-                onPress={handleCancelDelete}
-                style={styles.cancelButton}>
-                <Text style={styles.buttonText}>Cancel</Text>
+                style={styles.logoutbuttonContainer}
+                onPress={handleLogout}>
+                <Text style={styles.buttonText}>Logout</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  if (selectedPostId) {
-                    handleConfirmDelete(selectedPostId);
-                    setSelectedPostId(null);
-                  }
-                }}
-                style={styles.deleteButton}>
-                <Text style={styles.buttonText}>Delete</Text>
-              </TouchableOpacity>
+            </>
+          )}
+        </View>
+        <FlatList
+          data={posts}
+          keyExtractor={item => item.id}
+          contentContainerStyle={
+            posts.length === 0 ? styles.emptyContainer : styles.listContainer
+          }
+          renderItem={renderItem}
+          ListEmptyComponent={renderEmptyComponent}
+        />
+
+        <Modal
+          visible={modalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={handleCancelDelete}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>
+                Are you sure you want to delete this post?
+              </Text>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  onPress={handleCancelDelete}
+                  style={styles.cancelButton}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (selectedPostId) {
+                      handleConfirmDelete(selectedPostId);
+                      setSelectedPostId(null);
+                    }
+                  }}
+                  style={styles.deleteButton}>
+                  <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }

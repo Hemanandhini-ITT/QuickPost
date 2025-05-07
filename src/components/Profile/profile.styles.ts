@@ -110,4 +110,33 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
   },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuContainer: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+  },
+
+  menuDropdown: {
+    position: 'absolute',
+    top: 30,
+    right: 0,
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    elevation: 5,
+    padding: 10,
+    minWidth: 200,
+  },
+
+  menuItem: {
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    fontSize: fontSizes.md,
+    color: colors.black,
+  },
 });
