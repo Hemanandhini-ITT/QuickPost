@@ -1,3 +1,5 @@
+import {PostDataWithId} from '../components/Profile/profile.types';
+
 export type RootStackParamList = {
   AuthStack: undefined;
   HomeStack: undefined;
@@ -16,4 +18,6 @@ export type HomeTabParamList = {
 
 export type HomeStackParamList = {
   HomeTabs: undefined;
+  PostDetails: {post: PostDataWithId};
+  Comments: { postId: string };
 };

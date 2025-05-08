@@ -1,4 +1,4 @@
-import { authenticationService } from '../services/auth';
+import {authenticationService} from '../services/auth';
 
 export const useLogout = () => {
   const handleLogout = async () => {
@@ -9,5 +9,5 @@ export const useLogout = () => {
     }
   };
 
-  return { handleLogout };
+  return {handleLogout};
 };

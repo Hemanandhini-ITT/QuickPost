@@ -1,0 +1,142 @@
+import {Dimensions, StyleSheet} from 'react-native';
+import colors from '../../theme/colors';
+import fontSizes from '../../theme/font/fontSizes';
+import fontWeights from '../../theme/font/fontWeights';
+
+const screenWidth = Dimensions.get('window').width;
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  listContainer: {
+    padding: 16,
+    backgroundColor: colors.grayLight1,
+    flexGrow: 1,
+    gap: 20,
+  },
+  postContainer: {
+    backgroundColor: colors.white,
+    padding: 16,
+    borderRadius: 12,
+    shadowColor: colors.black,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  title: {
+    fontSize: fontSizes.lg,
+    fontWeight: fontWeights.bold,
+    color: colors.primary,
+    paddingBottom: 10,
+    flex: 1,
+  },
+  deleteIcon: {
+    color: colors.red,
+    fontSize: fontSizes.title,
+  },
+  content: {
+    fontSize: fontSizes.md,
+    color: colors.textPrimary,
+    paddingBottom: 20,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.transparentBlack50,
+  },
+  modalContent: {
+    width: screenWidth * 0.7,
+    padding: 20,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: fontSizes.md,
+    paddingBottom: 25,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cancelButton: {
+    padding: 10,
+    backgroundColor: colors.primary,
+    borderRadius: 5,
+    width: '45%',
+    alignItems: 'center',
+  },
+  deleteButton: {
+    padding: 10,
+    backgroundColor: colors.orangeDark,
+    borderRadius: 5,
+    width: '45%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: colors.white,
+    fontWeight: fontWeights.bold,
+  },
+  userInfoContainer: {
+    padding: 16,
+    backgroundColor: colors.warmcream,
+    alignItems: 'center',
+  },
+  userName: {
+    fontSize: fontSizes.lg,
+    fontWeight: fontWeights.bold,
+    paddingBottom: 15,
+  },
+  logoutbuttonContainer: {
+    backgroundColor: colors.orangeDark,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuContainer: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+  },
+
+  menuDropdown: {
+    position: 'absolute',
+    top: 30,
+    right: 0,
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    elevation: 5,
+    padding: 10,
+    minWidth: 200,
+  },
+
+  menuItem: {
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    fontSize: fontSizes.md,
+    color: colors.black,
+  },
+});

@@ -1,21 +1,39 @@
-import { useState } from 'react';
-import { authenticationService } from '../services/auth';
+import {useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {authenticationService} from '../services/auth';
+import useSignupValidation from './useSignupValidation';
+import { SignupFormData } from '../screens/Signup/signup.types';
 
 export const useSignup = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const handleSignup = async (email: string, password: string) => {
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<SignupFormData>({
+    resolver: useSignupValidation(),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const onSubmit = async (data: SignupFormData) => {
     try {
       setError(null);
-      await authenticationService.signUp(email, password);
-    } catch (error) {
-      setError((error as Error).message);
+      await authenticationService.signUp(data.email.trim(), data.password);
+    } catch (err) {
+      setError((err as Error).message);
     }
   };
 
   return {
-    handleSignup,
+    control,
+    errors,
+    handleSubmit,
+    onSubmit,
     error,
-    setError,
   };
 };

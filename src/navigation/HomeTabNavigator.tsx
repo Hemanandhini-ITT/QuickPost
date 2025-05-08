@@ -1,0 +1,45 @@
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feed from '../components/Feed';
+import CreatePost from '../components/CreatePost';
+import Profile from '../components/Profile';
+import {HomeTabParamList} from './navigation.types';
+
+const Tab = createBottomTabNavigator<HomeTabParamList>();
+
+const createTabIcon =
+  (iconName: string) =>
+  ({color, size}: {color: string; size: number}) =>
+    <MaterialIcons name={iconName} color={color} size={size} />;
+
+const FeedIcon = createTabIcon('list');
+const CreatePostIcon = createTabIcon('add-box');
+const ProfileIcon = createTabIcon('account-circle');
+
+const HomeTabs = () => (
+  <Tab.Navigator>
+    <Tab.Screen
+      name="Feed"
+      component={Feed}
+      options={{tabBarIcon: FeedIcon, headerTitleAlign: 'center'}}
+    />
+    <Tab.Screen
+      name="CreatePost"
+      component={CreatePost}
+      options={{
+        tabBarIcon: CreatePostIcon,
+        tabBarLabel: 'Create Post',
+        title: 'Create Post',
+        headerTitleAlign: 'center',
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={Profile}
+      options={{tabBarIcon: ProfileIcon, headerTitleAlign: 'center'}}
+    />
+  </Tab.Navigator>
+);
+
+export default HomeTabs;

@@ -1,16 +1,23 @@
-import React, { useRef } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Pressable } from 'react-native';
+import React from 'react';
+import {View, TouchableOpacity, Text} from 'react-native';
 import styles from './login.styles';
-import { useLogin } from '../../hooks/useLogin';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/navigation.types';
+import { useLogin} from '../../hooks/useLogin';
+import {useNavigation} from '@react-navigation/native';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../../navigation/navigation.types';
+import TextInputField from '../../components/TextInputField';
 
 const LoginScreen: React.FC = () => {
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
-  const { handleLogin, error } = useLogin();
-  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
+  const {
+    control,
+    errors,
+    handleSubmit,
+    onSubmit,
+    error,
+  } = useLogin();
 
   return (
     <View style={styles.container}>
@@ -19,26 +26,30 @@ const LoginScreen: React.FC = () => {
 
       {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <TextInput
-        placeholder="Email Address"
-        style={styles.input}
-        onChangeText={(text) => (emailRef.current = text)}
-        autoCapitalize="none"
+      <TextInputField
+        name="email"
+        label="Email Address"
+        control={control}
+        errors={errors}
         keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Password"
+        autoCapitalize="none"
+        placeholder="john@gmail.com"
         style={styles.input}
-        onChangeText={(text) => (passwordRef.current = text)}
-        secureTextEntry
       />
 
-      <Pressable
-        style={styles.button}
-        onPress={() => handleLogin(emailRef.current, passwordRef.current)}
-      >
+      <TextInputField
+        name="password"
+        label="Password"
+        control={control}
+        errors={errors}
+        secureTextEntry
+        style={styles.input}
+        placeholder="John@123"
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Sign In</Text>
-      </Pressable>
+      </TouchableOpacity>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don't have an account? </Text>
